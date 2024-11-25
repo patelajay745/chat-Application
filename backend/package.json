@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/ws": "^8.5.13",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2",
+    "ws": "^8.18.0"
+  }
+}
