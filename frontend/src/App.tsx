@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Send, Copy, Moon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Send, Copy, Moon, Check } from "lucide-react";
 
 import "./App.css";
 import { nanoid } from "nanoid";
@@ -9,6 +9,8 @@ function App() {
   const [showChatInteface, setShowChatInteface] = useState(false);
   const [showRoomCodeInteface, setRoomCodeInteface] = useState(false);
   const [roomId, setRoomId] = useState("");
+  const textRef = useRef(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     // const wss=
@@ -76,11 +78,44 @@ function App() {
               <p className="text-gray-400 text-sm font-mono mb-2">
                 Share this code with your friend
               </p>
-              <div className="flex items-center justify-between bg-black rounded-lg p-3">
-                <span className="text-white font-mono text-lg">{roomId}</span>
-                <button className="text-gray-400 hover:text-white transition-colors">
-                  <Copy className="w-5 h-5" />
-                </button>
+              <div className="relative">
+                <div className="flex items-center bg-black rounded-xl p-1.5 border border-gray-800 focus-within:border-gray-700 transition-colors group">
+                  <input
+                    ref={textRef}
+                    readOnly
+                    value={roomId}
+                    className="flex-1 bg-transparent text-white font-mono text-lg px-3 py-1.5 focus:outline-none select-all cursor-default"
+                  />
+                  <button
+                    onClick={() => {
+                      if (textRef.current === null) return;
+                      navigator.clipboard.writeText(roomId);
+                      textRef.current.focus();
+                      textRef.current.select();
+                    }}
+                    className={`p-2 rounded-lg transition-all duration-200 ${
+                      copied
+                        ? "bg-green-500/10 text-green-500"
+                        : "text-gray-400 hover:text-white hover:bg-gray-800"
+                    }`}
+                    title="Copy to clipboard"
+                  >
+                    {copied ? (
+                      <Check className="w-5 h-5" />
+                    ) : (
+                      <Copy className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+
+                {/* Tooltip */}
+                <div
+                  className={`absolute -top-8 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-gray-800 text-white text-sm rounded-lg transition-opacity duration-200 ${
+                    copied ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  Copied!
+                </div>
               </div>
             </div>
           )}
