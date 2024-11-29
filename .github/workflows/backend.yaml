@@ -1,0 +1,24 @@
+name: Backend Cloud Run Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+  pull_request:
+    paths:
+      - "backend/**"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Build
+        uses: docker/build-push-action@v6
+        with:
+          context: backend/
+          push: true
+          tags: backend:latest
