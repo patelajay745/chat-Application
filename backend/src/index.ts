@@ -1,6 +1,30 @@
-import { WebSocketServer, WebSocket } from "ws";
+import { WebSocketServer, WebSocket, VerifyClientCallbackSync } from "ws";
 
-const wss = new WebSocketServer({ port: 8080 });
+type VerifyClientInfo = Parameters<VerifyClientCallbackSync>[0];
+
+const wss = new WebSocketServer({
+  port: 8080,
+  verifyClient: (info: VerifyClientInfo) => {
+    const allowedOrigins = ["http://localhost:5173"];
+
+    const origin = info.origin;
+
+    if (!origin) {
+      console.log("Accepted connection with no origin");
+      return true;
+    }
+
+    console.log(origin);
+
+    if (!allowedOrigins.includes(origin)) {
+      console.log(`Rejected connection from origin: ${origin}`);
+      return false;
+    }
+
+    console.log(`Accepted connection from origin: ${origin}`);
+    return true;
+  },
+});
 
 interface User {
   socket: WebSocket;
