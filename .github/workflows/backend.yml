@@ -32,7 +32,8 @@ jobs:
       - name: Build
         env:
           IMAGE_NAME: backend
-          PROJECT_ID: ${{ env.GCP_PROJECT_ID }}
+          PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
         run: |-
+          echo "$PROJECT_ID"
           docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest 
           docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
