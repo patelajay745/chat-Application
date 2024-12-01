@@ -30,8 +30,9 @@ jobs:
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build
-        uses: docker/build-push-action@v6
-        with:
-          context: backend/
-          push: true
-          tags: backend:latest
+        env:
+          IMAGE_NAME: backend
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+        run: |-
+          docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest 
+          docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
