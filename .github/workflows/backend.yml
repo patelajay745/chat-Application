@@ -1,5 +1,9 @@
 name: Backend Cloud Run Deployment
 
+env:
+  PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/$PROJECT_ID/chat-app/backend
+
 on:
   push:
     branches:
@@ -18,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check variables
-        run: echo ${{env.GCP_PROJECT_ID}}
+        run: echo ${{ env.GCP_PROJECT_ID }}
 
       # - name: Google Cloud Auth
       #   uses: "google-github-actions/auth@v2"
