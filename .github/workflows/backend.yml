@@ -42,7 +42,7 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy chat-app \
-            --image us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest \
+            --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated    
