@@ -1,10 +1,5 @@
 name: Backend Cloud Run Deployment
 
-env:
-  PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
-  REPO_NAME: ${{ vars.GCR_REPO_NAME }}
-  DOCKER_IMAGE_URL: us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend
-
 on:
   push:
     branches:
@@ -23,29 +18,31 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Check variables
+      - name: Google Cloud Auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          project_id: ${{ vars.GCP_PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build
+        env:
+          IMAGE_NAME: backend
+          PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+        run: |-
+          gcloud artifacts repositories list --location=us-central1
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
+          docker push us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest
+
+      - name: Deploy to Cloud Run
         run: |
-          echo "Project ID: ${{ vars.GCP_PROJECT_ID }}"
-          echo "Repo Name: ${{ vars.GCR_REPO_NAME }}"
-          echo "Full Image URL: ${{ env.DOCKER_IMAGE_URL }}"
-
-      # - name: Google Cloud Auth
-      #   uses: "google-github-actions/auth@v2"
-      #   with:
-      #     credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
-      #     project_id: ${{ vars.GCP_PROJECT_ID }}
-
-      # - name: Set up Cloud SDK
-      #   uses: "google-github-actions/setup-gcloud@v2"
-
-      # - name: Configure Docker
-      #   run: gcloud auth configure-docker us-central1-docker.pkg.dev
-
-      # - name: Build
-      #   env:
-      #     IMAGE_NAME: backend
-      #     PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
-      #   run: |-
-      #     gcloud artifacts repositories list --location=us-central1
-      #     docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/chat-app/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
-      #     docker push us-central1-docker.pkg.dev/$PROJECT_ID/chat-app/$IMAGE_NAME:latest
+          gcloud run deploy chat-app \
+            --image us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated    
