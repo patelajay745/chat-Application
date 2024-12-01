@@ -27,7 +27,7 @@ jobs:
         uses: "google-github-actions/setup-gcloud@v2"
 
       - name: Configure Docker
-        uses: gcloud auth configure-docker us-central1-docker.pkg.dev
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build
         uses: docker/build-push-action@v6
