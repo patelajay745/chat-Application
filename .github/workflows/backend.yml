@@ -34,5 +34,6 @@ jobs:
           IMAGE_NAME: backend
           PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
         run: |-
+          gcloud auth configure-docker us-central1-docker.pkg.dev
           docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/chat-app/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
           docker push us-central1-docker.pkg.dev/$PROJECT_ID/chat-app/$IMAGE_NAME:latest
