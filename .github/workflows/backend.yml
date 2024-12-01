@@ -16,6 +16,19 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
+      - name: Google Cloud Auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: Configure Docker
+        uses: gcloud auth configure-docker us-central1-docker.pkg.dev
+
       - name: Build
         uses: docker/build-push-action@v6
         with:
