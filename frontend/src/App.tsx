@@ -3,6 +3,7 @@ import { Send, Copy, Check } from "lucide-react";
 
 import "./App.css";
 import { nanoid } from "nanoid";
+import "dotenv/config";
 
 type Message = {
   username: string;
@@ -27,7 +28,7 @@ function App() {
 
   useEffect(() => {
     // backend url
-    console.log(import.meta.env.VITE_BACKEND_URL);
+    console.log(process.env.VITE_BACKEND_URL);
     const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
 
     wsRef.current = ws;
