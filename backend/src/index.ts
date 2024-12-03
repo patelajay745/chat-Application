@@ -6,8 +6,9 @@ type VerifyClientInfo = Parameters<VerifyClientCallbackSync>[0];
 const wss = new WebSocketServer({
   port: 8080,
   verifyClient: (info: VerifyClientInfo) => {
+    // frontendURl
     const allowedUrl = process.env.ALLOWED_URL;
-    const allowedOrigins = ["http://localhost:5173",allowedUrl];
+    const allowedOrigins = ["http://localhost:5173", allowedUrl];
 
     const origin = info.origin;
 
