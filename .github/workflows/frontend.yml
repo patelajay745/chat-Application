@@ -1,11 +1,11 @@
-name: Backend Cloud Run Deployment
+name: Frontend Cloud Run Deployment
 
 on:
   push:
     branches:
       - main
     paths:
-      - "backend/**"
+      - "frontend/**"
   pull_request:
     paths:
       - "backend/**"
@@ -18,16 +18,16 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - name: Google Cloud Auth
+      - name: Google cloud Auth
         uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+          credentaials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
           project_id: ${{ vars.GCP_PROJECT_ID }}
 
       - name: Set up Cloud SDK
         uses: "google-github-actions/setup-gcloud@v2"
 
-      - name: Configure Docker
+      - name: configure Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build
@@ -35,14 +35,14 @@ jobs:
           IMAGE_NAME: backend
           PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
         run: |-
-          gcloud artifacts repositories list --location=us-central1
-          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
+          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest -f frontend/Dockerfile frontend/.
           docker push us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest
 
-      - name: Deploy to Cloud Run
+      - name: Deploy to cloud run
         run: |
-          gcloud run deploy chat-app \
-            --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend:latest \
+          gcloud run deploy chat-app-fe \
+            --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/frontend:latest \
             --platform managed \
             --region us-central1 \
             --allow-unauthenticated
+            --set-env-vars VITE_BACKEND_URL=${{vars.VITE_BACKEND_URL}}
