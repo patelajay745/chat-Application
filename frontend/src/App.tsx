@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Send, Copy, Moon, Check } from "lucide-react";
+import { Send, Copy, Check } from "lucide-react";
 
 import "./App.css";
 import { nanoid } from "nanoid";
@@ -16,18 +16,17 @@ function App() {
   const [showRoomInterface, setShowRoomInterface] = useState(true);
   const [showRoomCodeInteface, setRoomCodeInteface] = useState(false);
   const [roomId, setRoomId] = useState("");
-  const textRef = useRef(null);
+  const textRef = useRef<HTMLInputElement | null>(null);
   const [copied, setCopied] = useState(false);
   const [createRoomEnabled, setCreateRoomEnabled] = useState(true);
   const [enteredMessage, setEnteredMessage] = useState("");
-  const [isConnected, setIsconnected] = useState(false);
 
   const [name, setName] = useState("");
   const [enteredRoom, setEnteredRoom] = useState("");
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080");
+    const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
 
     wsRef.current = ws;
 
