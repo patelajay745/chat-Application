@@ -8,7 +8,7 @@ on:
       - "frontend/**"
   pull_request:
     paths:
-      - "backend/**"
+      - "frontend/**"
 
 jobs:
   docker:
