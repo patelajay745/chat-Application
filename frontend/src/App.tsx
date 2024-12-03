@@ -3,7 +3,7 @@ import { Send, Copy, Check } from "lucide-react";
 
 import "./App.css";
 import { nanoid } from "nanoid";
-import "dotenv/config";
+
 
 type Message = {
   username: string;
