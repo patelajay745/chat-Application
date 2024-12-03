@@ -17,7 +17,7 @@ function App() {
   const [showRoomCodeInteface, setRoomCodeInteface] = useState(false);
   const [roomId, setRoomId] = useState("");
   const textRef = useRef<HTMLInputElement | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copied, _setCopied] = useState(false);
   const [createRoomEnabled, setCreateRoomEnabled] = useState(true);
   const [enteredMessage, setEnteredMessage] = useState("");
 
