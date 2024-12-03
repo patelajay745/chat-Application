@@ -45,5 +45,5 @@ jobs:
             --platform managed \
             --port=80 \
             --region us-central1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
             --set-env-vars VITE_BACKEND_URL=${{vars.VITE_BACKEND_URL}}
