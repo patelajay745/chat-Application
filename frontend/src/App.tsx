@@ -26,7 +26,6 @@ function App() {
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // backend url
     const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
 
     wsRef.current = ws;
