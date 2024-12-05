@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --cache-folder ./.yarn-cache
 COPY . .
+ARG VITE_BACKEND_URL
 RUN yarn build
 
 FROM nginx:alpine

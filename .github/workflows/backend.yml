@@ -35,8 +35,7 @@ jobs:
           IMAGE_NAME: backend
           PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
         run: |-
-          gcloud artifacts repositories list --location=us-central1
-          docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
+          docker build --build-arg ALLOWED_URL=${{ vars.ALLOWED_URL }} -t us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest -f backend/Dockerfile backend/.
           docker push us-central1-docker.pkg.dev/$PROJECT_ID/${{ vars.GCR_REPO_NAME }}/$IMAGE_NAME:latest
 
       - name: Deploy to Cloud Run

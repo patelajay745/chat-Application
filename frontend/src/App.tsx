@@ -4,7 +4,6 @@ import { Send, Copy, Check } from "lucide-react";
 import "./App.css";
 import { nanoid } from "nanoid";
 
-
 type Message = {
   username: string;
   message: string;
@@ -27,7 +26,7 @@ function App() {
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // backend url
+    // backendurl
     console.log(import.meta.env.VITE_BACKEND_URL);
     const ws = new WebSocket(import.meta.env.VITE_BACKEND_URL);
 
