@@ -1,41 +1,9 @@
-import { WebSocketServer, WebSocket, VerifyClientCallbackSync } from "ws";
-import "dotenv/config";
+import { WebSocketServer, WebSocket } from "ws";
 
-type VerifyClientInfo = Parameters<VerifyClientCallbackSync>[0];
+// type VerifyClientInfo = Parameters<VerifyClientCallbackSync>[0];
 
 const wss = new WebSocketServer({
   port: 8080,
-  verifyClient: (info: VerifyClientInfo) => {
-    // frontendAllowedURL
-    const allowedUrl = process.env.ALLOWED_URL;
-
-    console.log(allowedUrl);
-    const allowedOrigins = [
-      "http://localhost:5173",
-      allowedUrl,
-      allowedUrl?.replace("http:", "https:"),
-      allowedUrl?.replace("https:", "http:"),
-    ].filter(Boolean);
-
-    const origin = info.origin;
-    console.log("Incoming origin:", origin);
-    console.log("Allowed origins:", allowedOrigins);
-
-    if (!origin) {
-      console.log("Accepted connection with no origin");
-      return true;
-    }
-
-    console.log(origin);
-
-    const isAllowed = allowedOrigins.includes(origin);
-    if (!isAllowed) {
-      console.log(`Rejected connection from origin: ${origin}`);
-    } else {
-      console.log(`Accepted connection from origin: ${origin}`);
-    }
-    return isAllowed;
-  },
 });
 
 interface User {
