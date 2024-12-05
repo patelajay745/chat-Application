@@ -1,6 +1,5 @@
 import { WebSocketServer, WebSocket } from "ws";
 
-// updated
 const wss = new WebSocketServer({
   port: 8080,
 });
@@ -13,7 +12,7 @@ interface User {
 let allSocket: User[] = [];
 
 wss.on("connection", (socket) => {
-  socket.on("disconnect", () => {
+  socket.on("close", () => {
     const senderData: User[] = allSocket.filter((x) => x.socket == socket);
     const senderRoomId = senderData[0].room;
     const username = senderData[0].username;
@@ -30,6 +29,10 @@ wss.on("connection", (socket) => {
       }
     }
     allSocket = allSocket.filter((s) => s.socket != socket);
+  });
+
+  socket.on("error", (error) => {
+    console.error("WebSocket error:", error);
   });
 
   socket.on("message", (message) => {
@@ -82,3 +85,9 @@ wss.on("connection", (socket) => {
     }
   });
 });
+
+wss.on("error", (error) => {
+  console.error("WebSocket server error:", error);
+});
+
+console.log("WebSocket server started on port 8080");
