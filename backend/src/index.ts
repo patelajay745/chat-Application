@@ -8,9 +8,18 @@ const wss = new WebSocketServer({
   verifyClient: (info: VerifyClientInfo) => {
     // frontendAllowedURL
     const allowedUrl = process.env.ALLOWED_URL;
-    const allowedOrigins = ["http://localhost:5173", allowedUrl];
+
+    console.log(allowedUrl);
+    const allowedOrigins = [
+      "http://localhost:5173",
+      allowedUrl,
+      allowedUrl?.replace("http:", "https:"),
+      allowedUrl?.replace("https:", "http:"),
+    ].filter(Boolean);
 
     const origin = info.origin;
+    console.log("Incoming origin:", origin);
+    console.log("Allowed origins:", allowedOrigins);
 
     if (!origin) {
       console.log("Accepted connection with no origin");
@@ -19,13 +28,13 @@ const wss = new WebSocketServer({
 
     console.log(origin);
 
-    if (!allowedOrigins.includes(origin)) {
+    const isAllowed = allowedOrigins.includes(origin);
+    if (!isAllowed) {
       console.log(`Rejected connection from origin: ${origin}`);
-      return false;
+    } else {
+      console.log(`Accepted connection from origin: ${origin}`);
     }
-
-    console.log(`Accepted connection from origin: ${origin}`);
-    return true;
+    return isAllowed;
   },
 });
 

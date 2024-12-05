@@ -32,6 +32,10 @@ function App() {
 
     wsRef.current = ws;
 
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
     ws.onmessage = (event) => {
       console.log(event);
       console.log("message recived", event.data);
