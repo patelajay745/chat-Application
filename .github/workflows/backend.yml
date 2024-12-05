@@ -45,6 +45,4 @@ jobs:
             --platform managed \
             --region us-central1 \
             --set-env-vars ALLOWED_URL=${{vars.ALLOWED_URL}} \
-            --use-http2 \
-            --session-affinity \
             --allow-unauthenticated

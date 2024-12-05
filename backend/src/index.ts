@@ -2,6 +2,7 @@ import { WebSocketServer, WebSocket } from "ws";
 
 // type VerifyClientInfo = Parameters<VerifyClientCallbackSync>[0];
 
+// updated
 const wss = new WebSocketServer({
   port: 8080,
 });
