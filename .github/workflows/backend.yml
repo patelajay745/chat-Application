@@ -52,5 +52,4 @@ jobs:
           --concurrency=80 \
           --cpu-boost \
           --min-instances=1 \
-          --set-env-vars=PORT=8080 \
           --ingress=all
