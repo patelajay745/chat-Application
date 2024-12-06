@@ -52,4 +52,6 @@ jobs:
           --concurrency=80 \
           --cpu-boost \
           --min-instances=1 \
-          --ingress=all
+          --ingress=all \
+          --use-http2=false \
+          --no-session-affinity 
