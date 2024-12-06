@@ -53,5 +53,4 @@ jobs:
           --cpu-boost \
           --min-instances=1 \
           --ingress=all \
-          --use-http2=false \
-          --no-session-affinity 
+          --no-use-http2
