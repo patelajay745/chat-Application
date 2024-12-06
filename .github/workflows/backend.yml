@@ -46,4 +46,5 @@ jobs:
             --timeout 3600 \
             --port=8080 \
             --region us-central1 \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --no-health-checks
