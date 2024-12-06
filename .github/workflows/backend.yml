@@ -44,7 +44,6 @@ jobs:
             --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend:latest \
             --platform managed \
             --timeout 3600 \
-            --use-http2 \
             --port=8080 \
             --region us-central1 \
             --allow-unauthenticated
