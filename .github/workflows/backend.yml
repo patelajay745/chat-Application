@@ -45,5 +45,6 @@ jobs:
             --platform managed \
             --timeout 3600 \
             --use-http2 \
+            --port=8080 \
             --region us-central1 \
             --allow-unauthenticated
