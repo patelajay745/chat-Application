@@ -41,10 +41,16 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy chat-app \
-            --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend:latest \
-            --platform managed \
-            --timeout 3600 \
-            --port=8080 \
-            --region us-central1 \
-            --allow-unauthenticated \
-            --no-health-checks
+          --image us-central1-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCR_REPO_NAME }}/backend:latest \
+          --platform managed \
+          --timeout 3600 \
+          --port=8080 \
+          --region us-central1 \
+          --allow-unauthenticated \
+          --cpu=1000m \
+          --memory=512Mi \
+          --concurrency=80 \
+          --startup-cpu-boost \
+          --min-instances=1 \
+          --set-env-vars=PORT=8080 \
+          --ingress=all
