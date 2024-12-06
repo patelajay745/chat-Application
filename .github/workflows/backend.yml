@@ -50,7 +50,7 @@ jobs:
           --cpu=1000m \
           --memory=512Mi \
           --concurrency=80 \
-          --startup-cpu-boost \
+          --cpu-boost \
           --min-instances=1 \
           --set-env-vars=PORT=8080 \
           --ingress=all
